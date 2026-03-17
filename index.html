@@ -38,7 +38,7 @@ h1 {
 
 /* ===== PARTICLES ===== */
 .particles {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: radial-gradient(circle, rgba(99,102,241,0.2) 2px, transparent 2px);
@@ -76,12 +76,12 @@ h1 {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 0 25px #6366f1;
+  box-shadow: 0 0 30px #6366f1;
 }
 
 .center-circle img {
@@ -110,6 +110,7 @@ h1 {
              rotate(calc(-60deg * var(--i)));
 
   transition: 0.4s;
+  box-shadow: 0 0 15px rgba(99,102,241,0.5);
 }
 
 .item:hover {
@@ -117,6 +118,20 @@ h1 {
              translate(140px)
              rotate(calc(-60deg * var(--i)))
              scale(1.2);
+
+  box-shadow: 0 0 25px #ec4899;
+}
+
+/* ===== IMAGE FADE ===== */
+.fade-img {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: 1s ease;
+}
+
+.fade-img.loaded {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* ===== CURSOR GLOW ===== */
@@ -130,13 +145,15 @@ h1 {
   z-index: 1;
 }
 
-/* ===== FORM ===== */
+/* ===== CONTACT FORM ===== */
 form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   max-width: 320px;
   margin: 60px auto;
+  z-index: 2;
+  position: relative;
 }
 
 input, textarea {
@@ -178,17 +195,17 @@ button {
 <!-- LOADER -->
 <div id="loader">Loading...</div>
 
-<!-- NAME -->
-<h1 id="typing"></h1>
-
 <!-- PARTICLES -->
 <div class="particles"></div>
+
+<!-- NAME -->
+<h1 id="typing"></h1>
 
 <!-- CIRCLE -->
 <div class="circle-container">
 
   <div class="center-circle">
-    <img src="profile.png" alt="profile">
+    <img src="profile.png" class="fade-img" id="mainImg">
   </div>
 
   <div class="item" style="--i:0">💻</div>
@@ -200,7 +217,7 @@ button {
 
 </div>
 
-<!-- CONTACT FORM -->
+<!-- CONTACT -->
 <form action="https://formspree.io/f/xyzabcd" method="POST">
   <input type="text" name="name" placeholder="Your Name" required>
   <input type="email" name="email" placeholder="Your Email" required>
@@ -212,12 +229,13 @@ button {
 <div class="cursor-glow"></div>
 
 <script>
+
 /* LOADER */
 window.addEventListener("load", () => {
   document.getElementById("loader").style.display = "none";
 });
 
-/* TYPING EFFECT */
+/* TYPING */
 const text = "Anup Lamichhane";
 let i = 0;
 function typeEffect() {
@@ -235,6 +253,13 @@ document.addEventListener("mousemove", (e) => {
   glow.style.left = e.clientX + "px";
   glow.style.top = e.clientY + "px";
 });
+
+/* IMAGE FADE */
+const img = document.getElementById("mainImg");
+img.onload = () => {
+  img.classList.add("loaded");
+};
+
 </script>
 
 </body>
